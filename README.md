@@ -1,4 +1,4 @@
-# Trabalho de Fisica - 2023
+# Trabalho de Fisica - 2023 - Semestre 1
 
 ## Exercício 1
 ![Exercício 1](images/ex1.png)
