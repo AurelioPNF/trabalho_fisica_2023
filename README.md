@@ -3,12 +3,12 @@
 ## Exercício 1
 ![Exercício 1](images/ex1.png)
 
-Variáveis:
-Massa 1
-Massa 2
-Massa 3
-Atrito
-Força
+### Variáveis:
+#### Massa 1
+#### Massa 2
+#### Massa 3
+#### Atrito
+#### Força
 
 ## Exercício 2
 ![Exercício 2](images/ex2.png)
