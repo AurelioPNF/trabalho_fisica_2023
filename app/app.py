@@ -39,6 +39,46 @@ def introducao():
         """
     )
 
+    st.write("### Exercício 3")
+    st.image(image="images/ex3.png")
+    st.markdown(
+        """
+        Variáveis: (Massa 1, Massa 2, Gravidade)
+
+        Retorno: (Aceleração, Tensão)
+        """
+    )
+
+    st.write("### Exercício 4")
+    st.image(image="images/ex4.png")
+    st.markdown(
+        """
+        Variáveis: (Massa 1, Massa 2, Ângulo, Gravidade)
+
+        Retorno: (Aceleração, Tensão)
+        """
+    )
+
+    st.write("### Exercício 5")
+    st.image(image="images/ex5.png")
+    st.markdown(
+        """
+        Variáveis: (Número de Objetos, Razão da Progressão Aritmética, Massas definidas pela progressão, Força, Atrito)
+
+        Retorno: (Aceleração, Tensão N)
+        """
+    )
+
+    st.write("### Exercício 6")
+    st.image(image="images/ex6.png")
+    st.markdown(
+        """
+        Variáveis: (Massa A, Massa B, Massa C, Atrito, Força)
+
+        Retorno: (Aceleração, ForçaAB, ForçaBC)
+        """
+    )
+
 def exercicio1():
     st.write("Exercício 1")
 
