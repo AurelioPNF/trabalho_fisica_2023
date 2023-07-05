@@ -1,6 +1,6 @@
 import streamlit as st
-from utils import *
-
+from phys_utils import *
+import numpy as np
 
 def introducao():
     st.write("## Trabalho de Física 1 - 2023 - Semestre 1")
@@ -96,17 +96,14 @@ def exercicio1():
     #Variáveis
     massa_total = massa1+massa2+massa3
     
-    #Normal e força de atrito 1
-    normal1 = massa1*10
-    forca_atrito_1 = (atrito*normal1)
+    #Força de atrito 1
+    forca_atrito_1 = calcula_atrito(massa1,atrito,10)
     
     #Normal e força de atrito 2
-    normal2 = massa2*10
-    forca_atrito_2 = (atrito*normal2)
+    forca_atrito_2 = calcula_atrito(massa2,atrito,10)
 
     #Normal e força de atrito 3
-    normal3 = massa3*10
-    forca_atrito_3 = (atrito*normal3)
+    forca_atrito_3 = calcula_atrito(massa3,atrito,10)
 
     #Força de atrito total
     forca_atrito_total = forca_atrito_1+forca_atrito_2+forca_atrito_3
@@ -123,16 +120,16 @@ def exercicio1():
             aceleracao = 0
         
         #Aceleração
-        st.write(f"## Aceleração: {aceleracao} m/s²")
+        st.write(f"## Aceleração: {round(aceleracao,2)} m/s²")
         #Tensão 1
         tension1 = massa_total + forca_atrito_total
-        st.write(f"## Tensão 1: {tension1} N")
+        st.write(f"## Tensão 1: {round(tension1,2)} N")
         #Tensão 2
         tension2 = ((massa2+massa3)*aceleracao) + (forca_atrito_2+forca_atrito_3)
-        st.write(f"## Tensão 2: {tension2} N")
+        st.write(f"## Tensão 2: {round(tension2,2)} N")
         #Tensão 3
         tension3 = (massa3*aceleracao) + (forca_atrito_3)
-        st.write(f"## Tensão 3: {tension3} N")
+        st.write(f"## Tensão 3: {round(tension3,2)} N")
 
     
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
@@ -149,6 +146,18 @@ def exercicio2():
         atrito = setAtrito("Atrito",0.1)
         gravidade = setGravidade("Gravidade", 10)
 
+    #Variáveis
+    tensao = massa2*gravidade
+    forca_atrito = calcula_atrito(massa1, atrito, gravidade)
+    if forca_atrito>= tensao:
+        aceleracao=0
+    else:
+        aceleracao = (tensao-forca_atrito)/massa1
+    #Output
+    # Aceleração, Tensão
+    st.write(f"## Tensão: {round(tensao,2)} N")
+    st.write(f"## Aceleração: {round(aceleracao,2)} m/s²")
+
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
 
 def exercicio3():
@@ -160,6 +169,27 @@ def exercicio3():
         massa1 = setMassa("Massa 1", 10)
         massa2 = setMassa("Massa 2", 10)
         gravidade = setGravidade("Gravidade", 10)
+
+
+    #Output
+    #Aceleração, Tensão
+    peso1 = massa1*gravidade
+    peso2 = massa2*gravidade
+
+    maior_peso = peso1 if peso1>peso2 else peso2
+    menor_peso = peso1 if peso1<peso2 else peso2
+
+    if massa1+massa2 == 0:
+        st.write("## Massa total é zero, impossível de continuar o cálculo")
+    else:
+        aceleracao = (maior_peso-menor_peso)/(massa1+massa2)
+        st.write(f"## Aceleração: {round(aceleracao,2)} m/s²")
+        peso_total = peso1+peso2
+        massa_total = massa1+massa2
+
+        tensao = peso_total + massa_total*aceleracao
+        st.write(f"## Tensão: {round(tensao,2)} N")
+        
 
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
 
@@ -175,6 +205,22 @@ def exercicio4():
         angulo = setAngulo("Angulo", 30)
         gravidade = setGravidade("Gravidade", 10)
 
+    #Output
+    #Retorno: (Aceleração, Tensão)
+    peso1 = massa1*gravidade
+    peso1x = peso1*np.sin(angulo)
+    peso2 = massa2*gravidade
+
+    aceleracao = (peso2-peso1x)/(massa1+massa2)
+    tensao = peso1x + massa1 * aceleracao
+    if tensao<0: tensao=tensao*-1
+    st.write(f"## Tensão: {round(tensao,2)} N")
+    if aceleracao<0: aceleracao = aceleracao*-1
+    if peso1x!=peso2:
+        direcao = "em direção a M1" if peso1x>peso2 else "em direção a M2"
+    else: direcao=""
+    st.write(f"## Aceleração: {round(aceleracao,2)} m/s² {direcao}")
+
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
 
 def exercicio5():
@@ -188,8 +234,26 @@ def exercicio5():
         razao_progressao = setRazaoProgressao("Razão da progressão",10)
         atrito = setAtrito("Atrito",0.1)
         forca = setForca("Forca",10)
+        numero_n = st.number_input(label="Número N que deseja ver", min_value=1, max_value=num_objetos)
 
-        massas_definidas = [massa1 + i * razao_progressao for i in range(num_objetos)]
+        #Cálculo da massa N
+        massaN = lambda N,razao,massa1: massa1+(N*razao)
+
+        massa_final = massaN(num_objetos,razao_progressao,massa1)
+        massa_total = (num_objetos*(massa1*massa_final))/2
+        peso_total = massa_total*10
+        atrito_total = atrito*(peso_total)
+        
+        if atrito_total>= forca:
+            aceleracao=0
+            tensaoN = forca
+        else:
+            aceleracao = (forca-atrito_total)/massa_total
+            #Tensão N é a soma das massas até N vezes a aceleração
+            tensaoN = massaN(numero_n,razao_progressao,massa1)*aceleracao
+
+    st.write(f"## Aceleração: {aceleracao} m/s²")
+    st.write(f"## Tensão N: {tensaoN} N")
 
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
 
@@ -203,6 +267,32 @@ def exercicio6():
         massaC = setMassa("Massa C",10)
         atrito = setAtrito("Atrito",0.1)
         forca = setForca("Forca",10)
+
+    #Output
+    #Retorno: (Aceleração, ForçaAB, ForçaBC)
+
+    massa_total = massaA+massaB+massaC
+    if(massa_total==0):
+        st.write("Massa total é zero, impossível continuar os cálculos")
+    else:
+        peso1 = massaA*10
+        peso2 = massaB*10
+        peso3 = massaC*10
+        forca_atrito_total = (atrito*peso1)+(atrito*peso2)+(atrito*peso3)
+
+        aceleracao = (forca-forca_atrito_total)/massa_total
+        if forca-forca_atrito_total<0: aceleracao=0
+    
+        forcaAB = forca-(massaA*aceleracao)
+        forcaBC = forca-((massaA+massaB)*aceleracao)
+
+        st.write(f"## Aceleração: {aceleracao} m/s²")
+        st.write(f"## Força AB: {forcaAB} N")
+        st.write(f"## Força BC: {forcaBC} N")
+        
+
+    st.sidebar.success("Valores não especificados usarão os valores placeholder.")
+    st.sidebar.success("Para esse exercício, utilizamos gravidade = 10 m/s²")
 
 
 page_names_to_funcs = {

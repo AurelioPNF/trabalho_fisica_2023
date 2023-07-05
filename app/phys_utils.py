@@ -4,7 +4,7 @@ def setMassa(label, placeholder):
     massa = st.text_input(label=label , placeholder=f"{placeholder} Kg")
     if not massa: massa = placeholder
     else: massa = float(massa)
-    if massa<0: massa=0
+    if massa<0: raise(st.error(ValueError))
     return massa
 
 def setAtrito(label, placeholder):
@@ -46,3 +46,6 @@ def setRazaoProgressao(label,placeholder):
     else: razao_progressao = float(razao_progressao)
     if razao_progressao<0: razao_progressao = 0
     return razao_progressao
+
+def calcula_atrito(massa,atrito,gravidade):
+    return atrito*(massa*gravidade)
