@@ -153,7 +153,7 @@ def exercicio2():
     if forca_atrito>= tensao:
         aceleracao=0
     else:
-        aceleracao = (tensao-forca_atrito)/massa1+massa2
+        aceleracao = (tensao-forca_atrito)/(massa1+massa2)
     #Output
     # Aceleração, Tração
     st.write(f"## Tração: {round(tensao,2)} N")
