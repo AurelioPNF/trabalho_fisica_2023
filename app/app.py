@@ -1,6 +1,7 @@
 import streamlit as st
 from phys_utils import *
 import numpy as np
+import math
 
 def introducao():
     st.write("## Trabalho de Física 1 - 2023 - Semestre 1")
@@ -208,7 +209,7 @@ def exercicio4():
     #Output
     #Retorno: (Aceleração, Tensão)
     peso1 = massa1*gravidade
-    peso1x = peso1*np.sin(angulo)
+    peso1x = peso1*np.sin(math.radians(angulo))
     peso2 = massa2*gravidade
 
     aceleracao = (peso2-peso1x)/(massa1+massa2)
