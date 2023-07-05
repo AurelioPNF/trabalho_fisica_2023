@@ -28,7 +28,7 @@ def introducao():
         """
         Variáveis: (Massa 1, Massa 2, Massa 3, Atrito, Força)
         
-        Retorno: (Aceleração, Tensão 1, Tensão 2, Tensão 3)
+        Retorno: (Aceleração, Tração 1, Tração 2, Tração 3)
         """
     )
 
@@ -38,7 +38,7 @@ def introducao():
         """
         Variáveis: (Massa 1, Massa 2, Atrito, Gravidade)
         
-        Retorno: (Aceleração, Tensão)
+        Retorno: (Aceleração, Tração)
         """
     )
 
@@ -48,7 +48,7 @@ def introducao():
         """
         Variáveis: (Massa 1, Massa 2, Gravidade)
 
-        Retorno: (Aceleração, Tensão)
+        Retorno: (Aceleração, Tração)
         """
     )
 
@@ -58,7 +58,7 @@ def introducao():
         """
         Variáveis: (Massa 1, Massa 2, Ângulo, Gravidade)
 
-        Retorno: (Aceleração, Tensão)
+        Retorno: (Aceleração, Tração)
         """
     )
 
@@ -68,7 +68,7 @@ def introducao():
         """
         Variáveis: (Número de Objetos, Razão da Progressão Aritmética, Massas definidas pela progressão, Força, Atrito)
 
-        Retorno: (Aceleração, Tensão N)
+        Retorno: (Aceleração, Tração N)
         """
     )
 
@@ -122,15 +122,15 @@ def exercicio1():
         
         #Aceleração
         st.write(f"## Aceleração: {round(aceleracao,2)} m/s²")
-        #Tensão 1
+        #Tração 1
         tension1 = massa_total + forca_atrito_total
-        st.write(f"## Tensão 1: {round(tension1,2)} N")
-        #Tensão 2
+        st.write(f"## Tração 1: {round(tension1,2)} N")
+        #Tração 2
         tension2 = ((massa2+massa3)*aceleracao) + (forca_atrito_2+forca_atrito_3)
-        st.write(f"## Tensão 2: {round(tension2,2)} N")
-        #Tensão 3
+        st.write(f"## Tração 2: {round(tension2,2)} N")
+        #Tração 3
         tension3 = (massa3*aceleracao) + (forca_atrito_3)
-        st.write(f"## Tensão 3: {round(tension3,2)} N")
+        st.write(f"## Tração 3: {round(tension3,2)} N")
 
     
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
@@ -155,8 +155,8 @@ def exercicio2():
     else:
         aceleracao = (tensao-forca_atrito)/massa1
     #Output
-    # Aceleração, Tensão
-    st.write(f"## Tensão: {round(tensao,2)} N")
+    # Aceleração, Tração
+    st.write(f"## Tração: {round(tensao,2)} N")
     st.write(f"## Aceleração: {round(aceleracao,2)} m/s²")
 
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
@@ -173,7 +173,7 @@ def exercicio3():
 
 
     #Output
-    #Aceleração, Tensão
+    #Aceleração, Tração
     peso1 = massa1*gravidade
     peso2 = massa2*gravidade
 
@@ -189,7 +189,7 @@ def exercicio3():
         massa_total = massa1+massa2
 
         tensao = peso_total + massa_total*aceleracao
-        st.write(f"## Tensão: {round(tensao,2)} N")
+        st.write(f"## Tração: {round(tensao,2)} N")
         
 
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
@@ -207,7 +207,7 @@ def exercicio4():
         gravidade = setGravidade("Gravidade", 10)
 
     #Output
-    #Retorno: (Aceleração, Tensão)
+    #Retorno: (Aceleração, Tração)
     peso1 = massa1*gravidade
     peso1x = peso1*np.sin(math.radians(angulo))
     peso2 = massa2*gravidade
@@ -215,7 +215,7 @@ def exercicio4():
     aceleracao = (peso2-peso1x)/(massa1+massa2)
     tensao = peso1x + massa1 * aceleracao
     if tensao<0: tensao=tensao*-1
-    st.write(f"## Tensão: {round(tensao,2)} N")
+    st.write(f"## Tração: {round(tensao,2)} N")
     if aceleracao<0: aceleracao = aceleracao*-1
     if peso1x!=peso2:
         direcao = "em direção a M1" if peso1x>peso2 else "em direção a M2"
@@ -250,11 +250,11 @@ def exercicio5():
             tensaoN = forca
         else:
             aceleracao = (forca-atrito_total)/massa_total
-            #Tensão N é a soma das massas até N vezes a aceleração
+            #Tração N é a soma das massas até N vezes a aceleração
             tensaoN = massaN(numero_n,razao_progressao,massa1)*aceleracao
 
     st.write(f"## Aceleração: {aceleracao} m/s²")
-    st.write(f"## Tensão N: {tensaoN} N")
+    st.write(f"## Tração N: {tensaoN} N")
 
     st.sidebar.success("Valores não especificados usarão os valores placeholder.")
 
